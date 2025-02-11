@@ -18,7 +18,7 @@ Haplotig 2
 
 This results in a 6 column file, where the 4th columns represent the number of reads that are overlapping the given window. It shows if a window have unexpectedly high number of reads.
 
-# Results
+# Results Hap1
 
                 scaffold_1      59000000        59100000        10258   100000  100000  1.0000000
                 scaffold_1      59100000        59200000        24170   100000  100000  1.0000000
