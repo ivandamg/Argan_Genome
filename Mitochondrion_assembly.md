@@ -29,7 +29,7 @@
 
    module load BLAST+; module load Bowtie2;module load SPAdes; get_organelle_config.py -a all
 
-   sbatch --partition=pibu_el8 --job-name=mitochondria --time=2-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=mitochondria.out --error=mitochondria.error --mail-type=END,FAIL --wrap "module load BLAST+; module load Bowtie2;module load SPAdes; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/01_Chloroplast/GetOrganelle; get_organelle_from_reads.py -u /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/02_Mitochondria/mitochondria_hifi.fq -o /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/02_Mitochondria/mitochondria_output -R 10 -k 21,45,65,85,105 -t 12 -F embplant_mt --continue"
+           sbatch --partition=pibu_el8 --job-name=mitochondria --time=2-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=mitochondria.out --error=mitochondria.error --mail-type=END,FAIL --wrap "module load BLAST+; module load Bowtie2;module load SPAdes; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/01_Chloroplast/GetOrganelle; get_organelle_from_reads.py -u /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/02_Mitochondria/mitochondria_hifi.fq -o /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/02_Mitochondria/mitochondria_output -R 10 -k 21,45,65,85,105 -t 12 -F embplant_mt --continue"
 
 
 4. assemble mitochondria
