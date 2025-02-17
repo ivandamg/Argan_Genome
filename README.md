@@ -25,6 +25,19 @@ Analysis of the argan genome
 ## 6. Map reads to chloroplast and recover unmapped reads
 
          sbatch --partition=pibu_el8 --job-name=mito --time=2-10:00:00 --mem-per-cpu=128G --ntasks=24 --cpus-per-task=1 --output=mito.out --error=mito.error --mail-type=END,FAIL --wrap "module load minimap2;module load SAMtools; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/02_chloroplast; minimap2 -d chloroplast_Argan.mmi Argan_chloroplast.fasta; minimap2 -ax map-pb chloroplast_Argan.mmi /data/projects/p782_RNA_seq_Argania_spinosa/03_PreviousGenomeAssemblyAttemps/20_GenomeAssembly/01_Hifi/Combined_clean.fq.gz > Aligned_chloroplast.sam; samtools view -bS Aligned_chloroplast.sam > Aligned_chloroplast.bam; samtools sort Aligned_chloroplast.bam -o Aligned_chloroplast.sorted.bam; samtools index Aligned_chloroplast.sorted.bam; samtools view -b -f 4 Aligned_chloroplast.sorted.bam > unmapped_reads.bam; samtools fastq unmapped_reads.bam -o unmapped_reads.fastq; gzip unmapped_reads.fastq"
+
+
+## 7. hifiasm hifi reads
+
+
+        sbatch --partition=pibu_el8 --job-name=hifiasm --time=4-20:00:00 --mem-per-cpu=128G --ntasks=12 --cpus-per-task=1 --output=hifiasm1.out --error=hifiasm1.error --mail-type=END,FAIL --wrap "module load hifiasm; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/03_hifiASM_hybrid; hifiasm -o Assembly_v3 -t 32 --h1 /data/projects/p782_RNA_seq_Argania_spinosa/03_PreviousGenomeAssemblyAttemps/20_GenomeAssembly/02_HiC/Argon1_R1_trim.fastq.gz --h2 /data/projects/p782_RNA_seq_Argania_spinosa/03_PreviousGenomeAssemblyAttemps/20_GenomeAssembly/02_HiC/Argon1_R2_trim.fastq.gz --hom-cov 60 /data/projects/p782_RNA_seq_Argania_spinosa/03_PreviousGenomeAssemblyAttemps/20_GenomeAssembly/01_Hifi/Combined_clean.fq.gz "
+
+
+## 8. HiCUP: align the reads against the assembly and filter out artefacts
+
+
+## 9. YAHS:  Scaffolding, join gaps and re-orient sequences
+
          
 ## 5. hybrid assembly hifi + HiC
 
