@@ -42,14 +42,20 @@ Analysis of the argan genome
         #Convert to fasta
         awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.hap1.p_ctg.gfa > Assembly_v4.bp.hap1.p_ctg.fa; awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.hap2.p_ctg.gfa > Assembly_v4.bp.hap2.p_ctg.fa; awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.p_ctg.gfa > Assembly_v4.bp.p_ctg.fa
 
+
+## 8. Evaluate assemblies with BUSCO
+
+        sbatch --partition=pibu_el8 --job-name=hap1Busco --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=BuscoHap1.out --error=BuscoHap1.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM; busco -o BUSCOhap1 -i Assembly_v4.bp.hap1.p_ctg.fa -l eudicots_odb10 --cpu 12 -m genome -f"
+        sbatch --partition=pibu_el8 --job-name=hap2Busco --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=BuscoHap2.out --error=BuscoHap2.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM; busco -o BUSCOhap2 -i Assembly_v4.bp.hap2.p_ctg.fa -l eudicots_odb10 --cpu 12 -m genome -f"
+
 ## 8. HiCUP: align the reads against the assembly and filter out artefacts
 
 
 2. Create reference on hap1
 
-        sbatch --partition=pibu_el8 --job-name=HiCUP --time=0-20:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup1.out --error=hicup1.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R; bowtie2-build /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/ Hap1; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup_digester --genome Human_GRCh37 –re1 ^GATC,DpnII:G^ANTC,HinfI *.fa; 
+        sbatch --partition=pibu_el8 --job-name=HiCUP --time=0-03:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup1.out --error=hicup1.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R; bowtie2-build /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/Assembly_v4.bp.hap1.p_ctg.fa Hap1; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup_digester --genome Hap1 --arima *.fa" 
 
-hicup
+        sbatch --partition=pibu_el8 --job-name=HiCUP2 --time=0-03:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup2.out --error=hicup2.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R;module load SAMtools; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup --config /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/HiCUP/HiCUP_Conf.txt"
 
 ## 9. YAHS:  Scaffolding, join gaps and re-orient sequences
 
