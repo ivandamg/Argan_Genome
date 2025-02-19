@@ -39,9 +39,17 @@ Analysis of the argan genome
 
         sbatch --partition=pibu_el8 --job-name=hifiasm --time=1-20:00:00 --mem-per-cpu=64G --ntasks=12 --cpus-per-task=1 --output=hifiasm1.out --error=hifiasm1.error --mail-type=END,FAIL --wrap "module load hifiasm; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM; hifiasm -o Assembly_v4 -t 32 --hom-cov 50 /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/01_Chloroplast/unmapped_reads_mitochloroplast.fq"
 
+        #Convert to fasta
+        awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.hap1.p_ctg.gfa > Assembly_v4.bp.hap1.p_ctg.fa; awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.hap2.p_ctg.gfa > Assembly_v4.bp.hap2.p_ctg.fa; awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.p_ctg.gfa > Assembly_v4.bp.p_ctg.fa
 
 ## 8. HiCUP: align the reads against the assembly and filter out artefacts
 
+
+2. Create reference on hap1
+
+        sbatch --partition=pibu_el8 --job-name=HiCUP --time=0-20:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup1.out --error=hicup1.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R; bowtie2-build /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/ Hap1; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup_digester --genome Human_GRCh37 –re1 ^GATC,DpnII:G^ANTC,HinfI *.fa; 
+
+hicup
 
 ## 9. YAHS:  Scaffolding, join gaps and re-orient sequences
 
