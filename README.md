@@ -55,7 +55,7 @@ Analysis of the argan genome
 
         sbatch --partition=pibu_el8 --job-name=HiCUP --time=0-03:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup1.out --error=hicup1.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R; bowtie2-build /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/Assembly_v4.bp.hap1.p_ctg.fa Hap1; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup_digester --genome Hap1 --arima *.fa" 
 
-        sbatch --partition=pibu_el8 --job-name=HiCUP2 --time=0-03:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup2.out --error=hicup2.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R;module load SAMtools; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup --config /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/HiCUP/HiCUP_Conf.txt"
+        sbatch --partition=pibu_el8 --job-name=HiCUP2 --time=1-13:00:00 --mem-per-cpu=12G --ntasks=24 --cpus-per-task=1 --output=hicup2.out --error=hicup2.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R;module load SAMtools; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup --config /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/HiCUP/HiCUP_Conf.txt --threads 24"
 
 ## 9. YAHS:  Scaffolding, join gaps and re-orient sequences
 
