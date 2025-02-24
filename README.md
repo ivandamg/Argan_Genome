@@ -59,6 +59,8 @@ Analysis of the argan genome
 
 ## 9. YAHS:  Scaffolding, join gaps and re-orient sequences
 
+         /home/imateusgonzalez/00_Software/yahs/yahs contigs.fa hic-to-contigs.bam -o scaffolds.fa --min-contig-len 1000 --min-link 5 --gap-size 500 -t 16
+         
          
 ## 5. hybrid assembly hifi + HiC
 
