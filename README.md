@@ -37,8 +37,11 @@ Analysis of the argan genome
 ## 7. hifiasm hifi reads
 
 
-        sbatch --partition=pibu_el8 --job-name=hifiasm --time=1-20:00:00 --mem-per-cpu=64G --ntasks=12 --cpus-per-task=1 --output=hifiasm1.out --error=hifiasm1.error --mail-type=END,FAIL --wrap "module load hifiasm; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM; hifiasm -o Assembly_v4 -t 32 --hom-cov 50 /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/01_Chloroplast/unmapped_reads_mitochloroplast.fq"
+        sbatch --partition=pibu_el8 --job-name=hifiasm7 --time=1-20:00:00 --mem-per-cpu=64G --ntasks=12 --cpus-per-task=1 --output=hifiasm1.out --error=hifiasm1.error --mail-type=END,FAIL --wrap "module load hifiasm; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/07_hifiASMcov50; hifiasm -o Argan_v7cov50 -t 32 --hom-cov 50 Combined_clean.fq"
 
+
+                 awk '/^S/{print ">"$2;print $3}' Argan_v7cov50.bp.hap1.p_ctg.gfa > Argan_v7cov50.bp.hap1.p_ctg.fa; awk '/^S/{print ">"$2;print $3}' Argan_v7cov50.bp.hap2.p_ctg.gfa > Argan_v7cov50.bp.hap2.p_ctg.fa; awk '/^S/{print ">"$2;print $3}' Argan_v7cov50.bp.p_ctg.gfa > Argan_v7cov50.bp.p_ctg.fa
+                 
         #Convert to fasta
         awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.hap1.p_ctg.gfa > Assembly_v4.bp.hap1.p_ctg.fa; awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.hap2.p_ctg.gfa > Assembly_v4.bp.hap2.p_ctg.fa; awk '/^S/{print ">"$2;print $3}' Assembly_v4.bp.p_ctg.gfa > Assembly_v4.bp.p_ctg.fa
 
@@ -47,6 +50,10 @@ Analysis of the argan genome
 
         sbatch --partition=pibu_el8 --job-name=hap1Busco --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=BuscoHap1.out --error=BuscoHap1.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM; busco -o BUSCOhap1 -i Assembly_v4.bp.hap1.p_ctg.fa -l eudicots_odb10 --cpu 12 -m genome -f"
         sbatch --partition=pibu_el8 --job-name=hap2Busco --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=BuscoHap2.out --error=BuscoHap2.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM; busco -o BUSCOhap2 -i Assembly_v4.bp.hap2.p_ctg.fa -l eudicots_odb10 --cpu 12 -m genome -f"
+
+## 9. Evaluate assemblies with QUAST
+
+                sbatch --partition=pibu_el8 --job-name=hap1QUAST --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hap1QUAST.out --error=hap1QUAST.error --mail-type=END,FAIL --wrap "module load QUAST; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/05_hifiASMs; quast Assembly_v5.bp.hap1.p_ctg.fa -o QUAST_hap1"
 
 ## 8. HiCUP: align the reads against the assembly and filter out artefacts
 
