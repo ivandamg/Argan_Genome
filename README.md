@@ -75,7 +75,7 @@ Analysis of the argan genome
         sbatch --partition=pibu_el8 --job-name=YAHSv5 --time=1-13:00:00 --mem-per-cpu=12G --ntasks=16 --cpus-per-task=1 --output=YAHSv5.out --error=YAHSv5.error --mail-type=END,FAIL --wrap "cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/05_hifiASMs/02_YAHS; java -Xms512m -Xmx2048m -jar /home/imateusgonzalez/00_Software/juicer_tools_1.22.01.jar pre out_JBAT.txt out_JBAT.hic.part out_JBAT_chrom.size && mv out_JBAT.hic.part out_JBAT.hic"
 
 
-        sbatch --partition=pibu_el8 --job-name=YAHSv5b --time=1-13:00:00 --mem-per-cpu=128G --ntasks=16 --cpus-per-task=1 --output=YAHSv5b.out --error=YAHSv5b.error --mail-type=END,FAIL --wrap "cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/05_hifiASMs/02_YAHS; java -Xms512m -Xmx2048m -jar /home/imateusgonzalez/00_Software/juicer_tools_1.22.01.jar post -o out_JBAT out_JBAT.review.assembly out_JBAT.liftover.agp Assembly_v5.bp.hap1.p_ctg.fa"
+        sbatch --partition=pibu_el8 --job-name=YAHSv5b --time=1-13:00:00 --mem-per-cpu=512G --ntasks=16 --cpus-per-task=1 --output=YAHSv5b.out --error=YAHSv5b.error --mail-type=END,FAIL --wrap "cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/05_hifiASMs/02_YAHS; java -Xms512m -Xmx2048m -jar /home/imateusgonzalez/00_Software/juicer_tools_1.22.01.jar post -o out_JBAT out_JBAT.review.assembly out_JBAT.liftover.agp Assembly_v5.bp.hap1.p_ctg.fa"
 
          
          
