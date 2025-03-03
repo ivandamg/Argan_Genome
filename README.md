@@ -62,7 +62,7 @@ Analysis of the argan genome
 
         sbatch --partition=pibu_el8 --job-name=HiCUP --time=0-03:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup1.out --error=hicup1.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R; bowtie2-build /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/07_hifiASMcov50/Argan_v7cov50_hap1.fa Hap1; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup_digester --genome Hap1 --arima Argan_v7cov50_hap1.fa" 
 
-        sbatch --partition=pibu_el8 --job-name=HiCUP2 --time=1-13:00:00 --mem-per-cpu=12G --ntasks=24 --cpus-per-task=1 --output=hicup2.out --error=hicup2.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R;module load SAMtools; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup --config /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/HiCUP/HiCUP_Conf.txt --threads 24"
+        sbatch --partition=pibu_el8 --job-name=HiCUP2 --time=1-13:00:00 --mem-per-cpu=12G --ntasks=24 --cpus-per-task=1 --output=hicup2.out --error=hicup2.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R;module load SAMtools; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup --config /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/07_hifiASMcov50/HiCUP/HiCUP_Conf.txt --threads 24"
 
 ## 9. YAHS:  Scaffolding, join gaps and re-orient sequences
 
@@ -71,6 +71,10 @@ Analysis of the argan genome
         srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 ./yahs-1.1/yahs Assembly_v5.bp.hap1.p_ctg.fa  Argon1_R1_2_trim.hicup.bam 
 
         srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 ./yahs-1.1/juicer pre -a -o out_JBAT yahs.out.bin yahs.out_scaffolds_final.agp                  Assembly_v5.bp.hap1.p_ctg.fa.fai>out_JBAT.log 2>&1 cat out_JBAT.log  | grep PRE_C_SIZE | awk '{print $2" "$3}' > out_JBAT_chrom.size
+
+        srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 /home/imateusgonzalez/00_Software/yahs/yahs ../Argan_v7cov50_hap1.fa  Argon1_R1_2_trim.hicup.bam -o Hap1 --min-contig-len 1000 --min-link 5 --gap-size 500 -t 24
+
+        srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 java -Xms512m -Xmx2048m -jar /home/imateusgonzalez/00_Software/juicer_tools_1.22.01.jar pre -a -o out_JBAT yahs.out.bin yahs.out_scaffolds_final.agp Assembly_v5.bp.hap1.p_ctg.fa.fai>out_JBAT.log 2>&1 cat out_JBAT.log  | grep PRE_C_SIZE | awk '{print $2" "$3}' > out_JBAT_chrom.size
 
         sbatch --partition=pibu_el8 --job-name=YAHSv5 --time=1-13:00:00 --mem-per-cpu=12G --ntasks=16 --cpus-per-task=1 --output=YAHSv5.out --error=YAHSv5.error --mail-type=END,FAIL --wrap "cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/05_hifiASMs/02_YAHS; java -Xms512m -Xmx2048m -jar /home/imateusgonzalez/00_Software/juicer_tools_1.22.01.jar pre out_JBAT.txt out_JBAT.hic.part out_JBAT_chrom.size && mv out_JBAT.hic.part out_JBAT.hic"
 
