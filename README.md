@@ -48,19 +48,19 @@ Analysis of the argan genome
 
 ## 8. Evaluate assemblies with BUSCO
 
-        sbatch --partition=pibu_el8 --job-name=hap1Busco --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=BuscoHap1.out --error=BuscoHap1.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM; busco -o BUSCOhap1 -i Assembly_v4.bp.hap1.p_ctg.fa -l eudicots_odb10 --cpu 12 -m genome -f"
-        sbatch --partition=pibu_el8 --job-name=hap2Busco --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=BuscoHap2.out --error=BuscoHap2.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM; busco -o BUSCOhap2 -i Assembly_v4.bp.hap2.p_ctg.fa -l eudicots_odb10 --cpu 12 -m genome -f"
+        sbatch --partition=pibu_el8 --job-name=hap1Busco --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=BuscoHap1.out --error=BuscoHap1.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/07_hifiASMcov50; busco -o BUSCOhap1 -i Assembly_v4.bp.hap1.p_ctg.fa -l eudicots_odb10 --cpu 12 -m genome -f"
+        sbatch --partition=pibu_el8 --job-name=hap2Busco --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=BuscoHap2.out --error=BuscoHap2.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/07_hifiASMcov50; busco -o BUSCOhap2 -i Assembly_v4.bp.hap2.p_ctg.fa -l eudicots_odb10 --cpu 12 -m genome -f"
 
 ## 9. Evaluate assemblies with QUAST
 
-                sbatch --partition=pibu_el8 --job-name=hap1QUAST --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hap1QUAST.out --error=hap1QUAST.error --mail-type=END,FAIL --wrap "module load QUAST; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/05_hifiASMs; quast Assembly_v5.bp.hap1.p_ctg.fa -o QUAST_hap1"
+                sbatch --partition=pibu_el8 --job-name=hap1QUAST --time=0-10:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hap1QUAST.out --error=hap1QUAST.error --mail-type=END,FAIL --wrap "module load QUAST; cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/07_hifiASMcov50; quast Argan_v7cov50_hap1.fa -o QUAST_hap1 ;quast Argan_v7cov50_hap2.fa -o QUAST_hap2"
 
 ## 8. HiCUP: align the reads against the assembly and filter out artefacts
 
 
 2. Create reference on hap1
 
-        sbatch --partition=pibu_el8 --job-name=HiCUP --time=0-03:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup1.out --error=hicup1.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R; bowtie2-build /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/Assembly_v4.bp.hap1.p_ctg.fa Hap1; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup_digester --genome Hap1 --arima *.fa" 
+        sbatch --partition=pibu_el8 --job-name=HiCUP --time=0-03:00:00 --mem-per-cpu=12G --ntasks=12 --cpus-per-task=1 --output=hicup1.out --error=hicup1.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R; bowtie2-build /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/07_hifiASMcov50/Argan_v7cov50_hap1.fa Hap1; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup_digester --genome Hap1 --arima Argan_v7cov50_hap1.fa" 
 
         sbatch --partition=pibu_el8 --job-name=HiCUP2 --time=1-13:00:00 --mem-per-cpu=12G --ntasks=24 --cpus-per-task=1 --output=hicup2.out --error=hicup2.error --mail-type=END,FAIL --wrap "module load Bowtie2;module load R;module load SAMtools; /home/imateusgonzalez/00_Software/HiCUP-0.9.2/hicup --config /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/04_hifiASM/HiCUP/HiCUP_Conf.txt --threads 24"
 
