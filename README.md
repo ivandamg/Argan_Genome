@@ -72,9 +72,10 @@ Analysis of the argan genome
 
         srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 ./yahs-1.1/juicer pre -a -o out_JBAT yahs.out.bin yahs.out_scaffolds_final.agp                  Assembly_v5.bp.hap1.p_ctg.fa.fai>out_JBAT.log 2>&1 cat out_JBAT.log  | grep PRE_C_SIZE | awk '{print $2" "$3}' > out_JBAT_chrom.size
 
-        srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 /home/imateusgonzalez/00_Software/yahs/yahs ../Argan_v7cov50_hap1.fa  Argon1_R1_2_trim.hicup.bam -o Hap1 --min-contig-len 1000 --min-link 5 --gap-size 500 -t 24
+        srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 module load SAMTools; samtools faidx Argan_v7cov50_hap1.fa # in assembly directory
+        srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 /home/imateusgonzalez/00_Software/yahs/yahs -o YAHS_Hap1 -l 10000 Argan_v7cov50_hap1.fa  HiCUP/Argon1_R1_2_trim.hicup.bam
 
-        srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 java -Xms512m -Xmx2048m -jar /home/imateusgonzalez/00_Software/juicer_tools_1.22.01.jar pre -a -o out_JBAT yahs.out.bin yahs.out_scaffolds_final.agp Assembly_v5.bp.hap1.p_ctg.fa.fai>out_JBAT.log 2>&1 cat out_JBAT.log  | grep PRE_C_SIZE | awk '{print $2" "$3}' > out_JBAT_chrom.size
+        srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 java -Xms512m -Xmx2048m -jar /home/imateusgonzalez/00_Software/juicer_tools_1.22.01.jar pre -a -o out_JBAT_Hap1 YAHS_Hap1.bin YAHS_Hap1_scaffolds_final.agp ../Argan_v7cov50_hap1.fa.fai>out_JBAT_Hap1.log 2>&1 cat out_JBAT_Hap1.log  | grep PRE_C_SIZE | awk '{print $2" "$3}' > out_JBAT_Hap1_chrom.size
 
         sbatch --partition=pibu_el8 --job-name=YAHSv5 --time=1-13:00:00 --mem-per-cpu=12G --ntasks=16 --cpus-per-task=1 --output=YAHSv5.out --error=YAHSv5.error --mail-type=END,FAIL --wrap "cd /data/projects/p782_RNA_seq_Argania_spinosa/200_v3Assembly/05_hifiASMs/02_YAHS; java -Xms512m -Xmx2048m -jar /home/imateusgonzalez/00_Software/juicer_tools_1.22.01.jar pre out_JBAT.txt out_JBAT.hic.part out_JBAT_chrom.size && mv out_JBAT.hic.part out_JBAT.hic"
 
