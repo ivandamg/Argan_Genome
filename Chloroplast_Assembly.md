@@ -27,8 +27,11 @@
 
 
 
-                  srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 module load Anaconda3/2022.05; conda activate flye_env; cd /data/projects/p782_RNA_seq_Argania_spinosa/300_ChloroplastAssembly; flye --meta --pacbio-hifi chloroplast_hifi.fq -g 158M --out-dir 01_flyeAssembly --threads 24 --iterations 2  
+                  srun -p pibu_el8 --mem=50G --cpus-per-task=24 --time=24:00:00 module load Anaconda3/2022.05; conda activate flye_env; cd /data/projects/p782_RNA_seq_Argania_spinosa/300_ChloroplastAssembly; flye --meta --pacbio-hifi chloroplast_hifi.fq -g 158k --out-dir 01_flyeAssembly --threads 24   
 
+
+4. polishing with racon https://github.com/isovic/racon
+   
 
 
 3b. Assemble chloroplast with getorganelle (in local)
