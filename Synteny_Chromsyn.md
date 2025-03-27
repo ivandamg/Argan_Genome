@@ -16,6 +16,9 @@ https://github.com/slimsuite/chromsyn/blob/main/Walkthrough.md
     sbatch --partition=pibu_el8 --job-name=hap1Busco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=BuscoHap1.out --error=BuscoHap1.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/01_Assembly/01_hap1; busco -o hap1 -i S_spinosum_hap1.fa -l eudicots_odb10 --cpu 12 -m genome -f"
 
     sbatch --partition=pibu_el8 --job-name=hap2Busco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=BuscoHap2.out --error=BuscoHap2.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/01_Assembly/02_hap2; busco -o hap1 -i S_spinosum_hap2.fa -l eudicots_odb10 --cpu 12 -m genome -f"
+
+    sbatch --partition=pibu_el8 --job-name=NewHifiBusco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=BuscoNewHifi.out --error=BuscoNewHifi.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/01_Assembly/03_NewHifi; busco -o NewHifi -i GCA_048023285.1_ArganeHicHifi25_genomic.fna -l eudicots_odb10 --cpu 12 -m genome -f"
+    
     sbatch --partition=pibu_el8 --job-name=QLODBusco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=QLODBusco.out --error=QLODBusco.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/21_RNAseqV2/07_Busco/QLOD/; busco -o QLOD -i Max1M_QLOD.fasta -l eudicots_odb10 --cpu 12 -m genome -f"
 
 #2b. Consolidate Busco result
