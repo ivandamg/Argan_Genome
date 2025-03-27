@@ -13,10 +13,9 @@ https://github.com/slimsuite/chromsyn/blob/main/Walkthrough.md
 #2.  Busco in cluster
 
 
-    sbatch --partition=pibu_el8 --job-name=hap1Busco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=BuscoHap1.out --error=BuscoHap1.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/30_FinalAssemblyPaper/01_Assembly/01_hap1; busco -o /data/projects/p782_RNA_seq_Argania_spinosa/30_FinalAssemblyPaper/02_BUSCO/01_hap1/ -i Aspinosa_hap1.fa -l eudicots_odb10 --cpu 12 -m genome -f"
+    sbatch --partition=pibu_el8 --job-name=hap1Busco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=BuscoHap1.out --error=BuscoHap1.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/01_Assembly/01_hap1; busco -o hap1 -i S_spinosum_hap1.fa -l eudicots_odb10 --cpu 12 -m genome -f"
 
-    sbatch --partition=pibu_el8 --job-name=hap2Busco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=BuscoHap2.out --error=BuscoHap2.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/30_FinalAssemblyPaper/01_Assembly/02_hap2; busco -o /data/projects/p782_RNA_seq_Argania_spinosa/30_FinalAssemblyPaper/02_BUSCO/02_hap2 -i Aspinosa_hap2.fa -l eudicots_odb10 --cpu 12 -m genome -f"
-
+    sbatch --partition=pibu_el8 --job-name=hap2Busco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=BuscoHap2.out --error=BuscoHap2.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/01_Assembly/02_hap2; busco -o hap1 -i S_spinosum_hap2.fa -l eudicots_odb10 --cpu 12 -m genome -f"
     sbatch --partition=pibu_el8 --job-name=QLODBusco --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=QLODBusco.out --error=QLODBusco.error --mail-type=END,FAIL --wrap "module load BUSCO; cd /data/projects/p782_RNA_seq_Argania_spinosa/21_RNAseqV2/07_Busco/QLOD/; busco -o QLOD -i Max1M_QLOD.fasta -l eudicots_odb10 --cpu 12 -m genome -f"
 
 #2b. Consolidate Busco result
@@ -25,9 +24,13 @@ https://github.com/slimsuite/chromsyn/blob/main/Walkthrough.md
 
 #3. tidk in local
 
-    tidk search hap1.fasta -o hap1 -s AACCCT --dir hap1;cp -v hap1/hap1_telomeric_repeat_windows.tsv hap1/hap1.tidk.csv; cp hap1/hap1.tidk.csv .
+    tidk search S_spinosum_hap1.fa -o S_spinosum_hap1 -s AACCCT --dir hap1;cp -v hap1/S_spinosum_hap1_telomeric_repeat_windows.tsv hap1/S_spinosum_hap1.tidk.csv; cp hap1/S_spinosum_hap1.tidk.csv .
 
-    tidk search hap2.fasta -o hap2 -s AACCCT --dir hap2;cp -v hap2/hap2_telomeric_repeat_windows.tsv hap2/hap2.tidk.csv; cp hap2/hap2.tidk.csv .
+    tidk search S_spinosum_hap2.fa -o S_spinosum_hap2 -s AACCCT --dir hap2;cp -v hap2/S_spinosum_hap2_telomeric_repeat_windows.tsv hap2/S_spinosum_hap2.tidk.csv; cp hap2/S_spinosum_hap2.tidk.csv .
+
+    tidk plot --tsv hap1/S_spinosum_hap1_telomeric_repeat_windows.tsv --output hap1/tidk-plot_hap1
+
+    tidk plot --tsv hap2/S_spinosum_hap2_telomeric_repeat_windows.tsv --output hap2/tidk-plot_hap2
 
 # 4. move the files into a single directory
 
