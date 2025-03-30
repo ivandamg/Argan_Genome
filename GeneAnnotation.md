@@ -1,9 +1,9 @@
 # 1. Map RNAseq reads to genomes
 
 
-# A. Published data.
+### A. Published data.
 
-## 0. Download public data with SRAtools
+0. Download public data with SRAtools
 
           # Download raw data
           for i in $(echo SRX18026584 SRX18026583 SRX18026582 SRX18026581 SRX18026580 SRX18026579 SRX18026578 SRX18026577 SRX18026576 SRX18026575 SRX18026574 SRX18026573 SRX18026572 SRX18026571 SRX18026570 SRX18026569 SRX18026568 SRX18026567 SRX18026566 SRX18026565 SRX18026564 SRX18026563 SRX18026562 SRX18026561 SRX18026560 SRX18026559 SRX18026558 SRX18026557 SRX18026556 SRX18026555); do echo $i; sbatch --partition=pshort_el8 --job-name=SRAtools1--time=0-04:00:00 --mem-per-cpu=4G --ntasks=1 --cpus-per-task=1 --output=SRAtools1.out --error=SRAtools1.error --mail-type=END,FAIL --wrap "module load SRA-Toolkit;cd /data/projects/p782_RNA_seq_Argania_spinosa/21_RNAseqV2/PRJNA863910_Graft_Tzeela_2022/00_rawreads/; prefetch $i"; done
@@ -17,14 +17,14 @@
           # gzip fastq files
           for i in $(ls SRR*.fastq); do echo $i; sbatch --partition=pshort_el8 --job-name=gzip --time=0-04:00:00 --mem-per-cpu=4G --ntasks=1 --cpus-per-task=1 --output=SRAtools1.out --error=SRAtools1.error --mail-type=END,FAIL --wrap "cd /data/projects/p782_RNA_seq_Argania_spinosa/21_RNAseqV2/PRJNA863910_Graft_Tzeela_2022/00_rawreads/; gzip $i"; done
           
-## 1. Trim data with fastp 
+ 1. Trim data with fastp 
 
 Clean reads with fastp
 
                         cd /data/projects/p782_RNA_seq_Argania_spinosa/21_RNAseqV2/PRJNA863910_Graft_Tzeela_2022/00_rawreads;
                         for FILE in $(ls *1.fastq.gz); do echo $FILE; sbatch --partition=pshort_el8 --job-name=$(echo $FILE | cut -d'_' -f1)fastp --time=0-04:00:00 --mem-per-cpu=24G --ntasks=1 --cpus-per-task=1 --output=$(echo $FILE | cut -d'_' -f1)_fastp.out --error=$(echo $FILE | cut -d'_' -f1)_fastp.error --mail-type=END,FAIL --wrap " cd /data/projects/p782_RNA_seq_Argania_spinosa/21_RNAseqV2/PRJNA863910_Graft_Tzeela_2022/00_rawreads ; module load FastQC; ~/00_Software/fastp --in1 $FILE --in2 $(echo $FILE | cut -d'_' -f1)_2.fastq.gz --out1 ../02_TrimmedData/$(echo $FILE | cut -d'_' -f1)_1_trimmed.fastq.gz --out2 ../02_TrimmedData/$(echo $FILE | cut -d'_' -f1)_2_trimmed.fastq.gz -h ../02_TrimmedData/$(echo $FILE | cut -d',' -f1)_fastp.html --thread 4; fastqc -t 4 ../02_TrimmedData/$(echo $FILE | cut -d'_' -f1)_1_trimmed.fastq.gz; fastqc -t 4 ../02_TrimmedData/$(echo $FILE | cut -d'_' -f1)_2_trimmed.fastq.gz"; sleep  1; done
 
-## 2. align your RNA-seq data to your genome with HISAT2
+2. align your RNA-seq data to your genome with HISAT2
 https://www.reneshbedre.com/blog/hisat2-sequence-aligner.html
 
            1. Build index on genome assembly
@@ -41,9 +41,9 @@ https://www.reneshbedre.com/blog/hisat2-sequence-aligner.html
                 sbatch --partition=pibu_el8 --job-name=H1SAMTOOLS --time=0-21:00:00 --mem-per-cpu=64G --ntasks=48 --cpus-per-task=1 --output=Hap1_SAMTOOLS.log --error=Hap1_SAMTOOLS.err --mail-type=END,FAIL --wrap "cd /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/03_BRAKER/Ref_RnaSeq/02_PublishedData/; module load SAMtools/1.13-GCC-10.3.0; samtools view --threads 48 -b -o PRJNA863910_30samples_Hap1.bam PRJNA863910_30samples_Hap1.sam; samtools sort -o PRJNA863910_30samples_Hap1_sorted.bam -T PRJNA863910_30samples_Hap1_temp --threads 48 PRJNA863910_30samples_Hap1.bam"
 
 
-# B. Own data
+### B. Own data
 
-## 1. Trim data with fastp 
+1. Trim data with fastp 
 
 Clean reads with fastp
 
@@ -51,7 +51,7 @@ Clean reads with fastp
 
 
 
-## 2. align your RNA-seq data to your genome with HISAT2
+2. align your RNA-seq data to your genome with HISAT2
 https://www.reneshbedre.com/blog/hisat2-sequence-aligner.html
 
            1. Build index on genome assembly
