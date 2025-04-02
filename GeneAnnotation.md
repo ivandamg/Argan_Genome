@@ -105,7 +105,7 @@ https://www.reneshbedre.com/blog/hisat2-sequence-aligner.html
 
 15. VF: 221 Embryophyta proteome + 12RNAseq +30 RNASEQ
 
-                     sbatch --partition=pibu_el8 --job-name=hap2BRAKER3_v9 --time=1-24:00:00 --mem-per-cpu=64G --ntasks=48 --cpus-per-task=1 --output=hap2BRAKER3_v9.out --error=hap2BRAKER3_v9.error --mail-type=END,FAIL --wrap "export APPTAINER_TMPDIR=/data/users/imateusgonzalez/Z_Soft/; export BRAKER_SIF=/data/users/imateusgonzalez/Z_Soft/braker3.sif; cd /data/users/imateusgonzalez/Z_Soft/; singularity exec --no-home -B ${PWD}:${PWD} ${BRAKER_SIF} braker.pl --AUGUSTUS_CONFIG_PATH=${PWD}/config/ --species=Sideroxylon --gff3 --genome=S_spinosum_hap2_braker_v16/S_spinosum_hap2.fa.masked --prot_seq=S_spinosum_hap2_braker_v16/221_Embryophyta_proteomes.fasta --useexisting --workingdir=S_spinosum_hap2_braker_v15 --GENEMARK_PATH=${ETP}/gmes --threads 48 --busco_lineage eudicots_odb10 &> hap2_v16.log"
+                     sbatch --partition=pibu_el8 --job-name=hap2BRAKER3_v9 --time=1-24:00:00 --mem-per-cpu=256G --ntasks=48 --cpus-per-task=1 --output=hap2BRAKER3_v9.out --error=hap2BRAKER3_v9.error --mail-type=END,FAIL --wrap "export APPTAINER_TMPDIR=/data/users/imateusgonzalez/Z_Soft/; export BRAKER_SIF=/data/users/imateusgonzalez/Z_Soft/braker3.sif; cd /data/users/imateusgonzalez/Z_Soft/; singularity exec --no-home -B ${PWD}:${PWD} ${BRAKER_SIF} braker.pl --AUGUSTUS_CONFIG_PATH=${PWD}/config/ --species=Sideroxylon --gff3 --genome=S_spinosum_hap2_braker_v16/S_spinosum_hap2.fa.masked --prot_seq=S_spinosum_hap2_braker_v16/221_Embryophyta_proteomes.fasta --useexisting --workingdir=S_spinosum_hap2_braker_v16 --GENEMARK_PATH=${ETP}/gmes --threads 48 --busco_lineage eudicots_odb10 &> hap2_v16.log"
 
 15. Evaluate annotation BUSCO
 
