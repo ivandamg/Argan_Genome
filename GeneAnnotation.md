@@ -65,6 +65,8 @@ https://www.reneshbedre.com/blog/hisat2-sequence-aligner.html
 
                 sbatch --partition=pibu_el8 --job-name=FrH2SAMTOOLS --time=0-21:00:00 --mem-per-cpu=64G --ntasks=48 --cpus-per-task=1 --output=FrHap2_SAMTOOLS.log --error=FrHap2_SAMTOOLS.err --mail-type=END,FAIL --wrap "cd /data/projects/p495_SinorhizobiumMeliloti/TEMP_ARGAN/; module load SAMtools; samtools view --threads 48 -b -o Ufribourg_12samples_Hap2.bam Ufribourg_12samples_Hap2.sam; samtools sort -m 64G -o Ufribourg_12samples_Hap2_sorted.bam -T Ufribourg_12samples_Hap2_temp --threads 48 Ufribourg_12samples_Hap2.bam"
 
+sbatch --partition=pibu_el8 --job-name=FrH1Hisatmap3 --time=1-21:00:00 --mem-per-cpu=16G --ntasks=12 --cpus-per-task=1 --output=FrHap1_HiSat2index.log --error=FrHap1_HiSat2index.err --mail-type=END,FAIL --wrap "cd /data/projects/p495_SinorhizobiumMeliloti/TEMP_ARGAN; module load SAMtools/1.13-GCC-10.3.0; samtools sort -o Ufribourg_12samples_Hap2_sorted.bam Ufribourg_12samples_Hap2.bam ; samtools index Ufribourg_12samples_Hap2_sorted.bam"
+
 
 
 
