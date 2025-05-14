@@ -88,9 +88,8 @@ https://www.reneshbedre.com/blog/hisat2-sequence-aligner.html
 
         export APPTAINER_TMPDIR=/data/users/imateusgonzalez/Z_Soft/
    
-3. build braker3
 
-export APPTAINER_TMPDIR=/data/users/imateusgonzalez/Z_Soft/   
+
 4.   export the container image
 
                 export BRAKER_SIF=/data/users/imateusgonzalez/Z_Soft/braker3.sif
@@ -115,6 +114,8 @@ export APPTAINER_TMPDIR=/data/users/imateusgonzalez/Z_Soft/
 15. run in Z_soft: 221 Embryophyta proteome + 12RNAseq +30 RNASEQ
 
                      sbatch --partition=pibu_el8 --job-name=hap2BRAKER3 --time=2-24:00:00 --mem-per-cpu=64G --ntasks=48 --cpus-per-task=1 --output=hap2BRAKER3.out --error=hap2BRAKER3.error --mail-type=END,FAIL --wrap "cd /data/users/imateusgonzalez/Z_Soft/; singularity exec --no-home -B ${PWD}:${PWD} ${BRAKER_SIF} braker.pl --AUGUSTUS_CONFIG_PATH=${PWD}/config/ --species=Sspinosum --gff3 --genome=Sspinosum_v17/S_spinosum_hap2.fa.masked --bam=Sspinosum_v17/Ufribourg_12samples_Hap2_sorted.bam,Sspinosum_v17/PRJNA863910_30samples_Hap2_sorted.bam --prot_seq=Sspinosum_v17/221_Embryophyta_proteomes.fasta --workingdir=Sspinosum_v17 --GENEMARK_PATH=${ETP}/gmes --threads 48 --busco_lineage eudicots_odb10 &> Sspinosum_v17_hap2.log"
+
+                    sbatch --partition=pibu_el8 --job-name=hap1BRAKER3 --time=2-24:00:00 --mem-per-cpu=64G --ntasks=48 --cpus-per-task=1 --output=hap1BRAKER3.out --error=hap1BRAKER3.error --mail-type=END,FAIL --wrap "cd /data/users/imateusgonzalez/Z_Soft/; singularity exec --no-home -B ${PWD}:${PWD} ${BRAKER_SIF} braker.pl --AUGUSTUS_CONFIG_PATH=${PWD}/config/ --genome=Data/S_spinosum_hap1_masked.fasta --bam=Data/Ufribourg_3Controls_Hap1_sorted.bam --prot_seq=Data/221_Embryophyta_proteomes.fasta --workingdir=Sspinosum_v18_hap1 --GENEMARK_PATH=${ETP}/gmes --threads 48 --busco_lineage eudicotyledons_odb12 &> Sspinosum_v18_hap1.log"
 
 15. Evaluate annotation BUSCO
 
