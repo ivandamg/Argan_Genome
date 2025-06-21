@@ -7,9 +7,11 @@
 
 Haplotig 1
 
-        sbatch --partition=pibu_el8 --job-name=minimap1 --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=minimap1.out --error=minimap1.error --mail-type=END,FAIL --wrap "module load minimap2; cd /data/projects/p782_RNA_seq_Argania_spinosa/22_MapingLongReads/04_CleanReads_VPGassembly; minimap2 -ax map-hifi Hap1_Galaxy233.fasta /data/projects/p782_RNA_seq_Argania_spinosa/03_PreviousGenomeAssemblyAttemps/20_GenomeAssembly/01_Hifi/Combined_clean.fq > CombinedClean_VGP_hap1.sam;module load SAMtools;samtools sort -o CombinedClean_VGP_hap1.bam CombinedClean_VGP_hap1.sam; samtools index CombinedClean_VGP_hap1.bam"
+        sbatch --partition=pibu_el8 --job-name=minimap1 --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=minimap1.out --error=minimap1.error --mail-type=END,FAIL --wrap "module load minimap2/2.20-GCCcore-10.3.0; cd /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/06_RemapReads/Hap1; minimap2 -ax map-hifi /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/01_Assembly/Combined_clean.fq.gz > CombinedClean_hap1.sam; module load SAMtools;samtools sort -o CombinedClean_hap1.bam CombinedClean_hap1.sam; samtools index CombinedClean_hap1.bam"
+
+        
 Haplotig 2
   
-        sbatch --partition=pibu_el8 --job-name=minimap1 --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=minimap1.out --error=minimap1.error --mail-type=END,FAIL --wrap "module load minimap2; cd /data/projects/p782_RNA_seq_Argania_spinosa/22_MapingLongReads/04_CleanReads_VPGassembly; minimap2 -ax map-hifi Hap2_Galaxy308.fasta /data/projects/p782_RNA_seq_Argania_spinosa/03_PreviousGenomeAssemblyAttemps/20_GenomeAssembly/01_Hifi/Combined_clean.fq > CombinedClean_VGP_hap2.sam;module load SAMtools;samtools sort -o CombinedClean_VGP_hap2.bam CombinedClean_VGP_hap2.sam; samtools index CombinedClean_VGP_hap2.bam"
+        sbatch --partition=pibu_el8 --job-name=minimap2 --time=0-10:00:00 --mem-per-cpu=50G --ntasks=12 --cpus-per-task=1 --output=minimap2.out --error=minimap2.error --mail-type=END,FAIL --wrap "module load minimap2/2.20-GCCcore-10.3.0; cd /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/06_RemapReads/Hap2; minimap2 -ax map-hifi /data/projects/p782_RNA_seq_Argania_spinosa/40_S_spinosum_FinalFinal/01_Assembly/Combined_clean.fq.gz > CombinedClean_hap2.sam; module load SAMtools;samtools sort -o CombinedClean_hap2.bam CombinedClean_hap2.sam; samtools index CombinedClean_hap2.bam"
         
 Then we can download and view with IGVview
