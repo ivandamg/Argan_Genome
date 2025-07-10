@@ -133,7 +133,9 @@ df_ordered_v2[df_ordered_v2[, 3] == -1, 3] <- df_ordered_v2[df_ordered_v2[, 3] =
 
 
 # 4. plot
-ggplot() +
+
+
+            ggplot() +
   geom_ideogram(aes(x = Chr, ymin = Start, ymax = End, 
                     chrom = Chr, fill = Value), 
                 data = gene_density1,
