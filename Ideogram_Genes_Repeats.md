@@ -91,11 +91,11 @@
 ### Apply and collect results
 
       results <- lapply(names(groups), function(k) {
-  parts <- strsplit(k, ":")[[1]]
-  contig <- parts[1]
-  win_start <- as.numeric(parts[2])
-  repeat_length <- get_nonoverlapping_length(groups[[k]])
-  data.frame(Contig = contig, Window = win_start, RepeatLength = repeat_length)      })
+        parts <- strsplit(k, ":")[[1]]
+        contig <- parts[1]
+        win_start <- as.numeric(parts[2])
+        repeat_length <- get_nonoverlapping_length(groups[[k]])
+        data.frame(Contig = contig, Window = win_start, RepeatLength = repeat_length)      })
 
       density_df <- do.call(rbind, results)
 
