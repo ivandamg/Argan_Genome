@@ -135,30 +135,28 @@ df_ordered_v2[df_ordered_v2[, 3] == -1, 3] <- df_ordered_v2[df_ordered_v2[, 3] =
 # 4. plot
 
 
-            ggplot() +
-  geom_ideogram(aes(x = Chr, ymin = Start, ymax = End, 
+            ggplot() + geom_ideogram(aes(x = Chr, ymin = Start, ymax = End, 
                     chrom = Chr, fill = Value), 
                 data = gene_density1,
                 radius = unit(4, 'pt'), width = 0.4, 
                 linewidth = 1, just = -0.05,
                 chrom.col = "#252525", chrom.lwd = .5) +
-  scale_fill_gradient(name = "gene_density", low = "white", 
+              scale_fill_gradient(name = "gene_density", low = "white", 
                       high = "turquoise4", n.breaks = 3) +
-  ggnewscale::new_scale_fill() +
-  geom_ideogram(aes(x = Chr, ymin = Start, ymax = End, 
+              ggnewscale::new_scale_fill() +
+              geom_ideogram(aes(x = Chr, ymin = Start, ymax = End, 
                     chrom = Chr, fill = Value), 
                 data = df_ordered_v2,
                 radius = unit(4, 'pt'), width = 0.4, 
                 linewidth = 1, just = 1.05,
                 chrom.col = "#252525", chrom.lwd = .5) +
-  scale_fill_gradient(name = "repeat_density", low = "white", 
+              scale_fill_gradient(name = "repeat_density", low = "white", 
                       high = "firebrick", n.breaks = 3, limit = c(0,100)) +
-  theme(
-    axis.title = element_blank(),
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(angle = 90, hjust = 1),
-    axis.ticks = element_blank(),
-    panel.background = element_blank(),
-    legend.position = 'top'
-  )
+              theme(
+          axis.title = element_blank(),
+          axis.text.y = element_blank(),
+          axis.text.x = element_text(angle = 90, hjust = 1),
+          axis.ticks = element_blank(),
+          panel.background = element_blank(),
+          legend.position = 'top' )
 
