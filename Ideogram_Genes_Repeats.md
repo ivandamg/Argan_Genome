@@ -71,65 +71,72 @@
       window_size <- 1e6
 
 ### Assign window start
-repo$WindowStart <- floor(repo$Start / window_size) * window_size
+
+      repo$WindowStart <- floor(repo$Start / window_size) * window_size
 
 ### Create unique ID for each contig-window
-repo$Group <- paste(repo$Contig, repo$WindowStart, sep = ":")
+
+      repo$Group <- paste(repo$Contig, repo$WindowStart, sep = ":")
 
 ### Split the data by contig-window group
-groups <- split(repo, repo$Group)
+      
+      groups <- split(repo, repo$Group)
 
 ### Compute non-overlapping repeat length for each group
-get_nonoverlapping_length <- function(subdf) {
-  ir <- IRanges(start = subdf$Start, end = subdf$End)
-  sum(width(reduce(ir)))
-}
+
+      get_nonoverlapping_length <- function(subdf) {
+        ir <- IRanges(start = subdf$Start, end = subdf$End)
+        sum(width(reduce(ir)))      }
 
 ### Apply and collect results
-results <- lapply(names(groups), function(k) {
+
+      results <- lapply(names(groups), function(k) {
   parts <- strsplit(k, ":")[[1]]
   contig <- parts[1]
   win_start <- as.numeric(parts[2])
   repeat_length <- get_nonoverlapping_length(groups[[k]])
-  data.frame(Contig = contig, Window = win_start, RepeatLength = repeat_length)
-})
+  data.frame(Contig = contig, Window = win_start, RepeatLength = repeat_length)      })
 
-density_df <- do.call(rbind, results)
+      density_df <- do.call(rbind, results)
 
 ### Calculate percentage and Mb coordinates
-density_df$Percent <- (density_df$RepeatLength / window_size) * 100
-density_df$WindowMb <- density_df$Window / 1e6
+
+      density_df$Percent <- (density_df$RepeatLength / window_size) * 100
+      density_df$WindowMb <- density_df$Window / 1e6
 
 ### Ensure full coverage of windows per contig
-all_windows <- do.call(rbind, lapply(split(density_df, density_df$Contig), function(subdf) {
-  data.frame(
+
+      all_windows <- do.call(rbind, lapply(split(density_df, density_df$Contig), function(subdf) { 
+      data.frame(
     Contig = unique(subdf$Contig),
     Window = seq(min(subdf$Window), max(subdf$Window), by = window_size)
-  )
-}))
+        )
+      }))
 
-density_df <- merge(all_windows, density_df, by = c("Contig", "Window"), all.x = TRUE)
-density_df$RepeatLength[is.na(density_df$RepeatLength)] <- 0
-density_df$Percent[is.na(density_df$Percent)] <- 0
-density_df$WindowMb <- density_df$Window / 1e6
+      density_df <- merge(all_windows, density_df, by = c("Contig", "Window"), all.x = TRUE)
+      density_df$RepeatLength[is.na(density_df$RepeatLength)] <- 0
+      density_df$Percent[is.na(density_df$Percent)] <- 0
+      density_df$WindowMb <- density_df$Window / 1e6
 
 ### reorder windows table
 
-df_ordered <- density_df[order(density_df$Window), ]
-df_ordered <- df_ordered[order(df_ordered$Contig), ]
+      df_ordered <- density_df[order(density_df$Window), ]
+      df_ordered <- df_ordered[order(df_ordered$Contig), ]
 
-endbin<-c((df_ordered$Window -1 ),36999999)
-endbin<-endbin [-1]
-df_ordered$end<- endbin
-df_ordered_v2<-df_ordered[,c(1,2,6,4)]
+      endbin<-c((df_ordered$Window -1 ),36999999)
+      endbin<-endbin [-1]
+      df_ordered$end<- endbin
+      df_ordered_v2<-df_ordered[,c(1,2,6,4)]
 
-colnames(df_ordered_v2)<-c("Chr","Start","End","Value")
+      colnames(df_ordered_v2)<-c("Chr","Start","End","Value")
 
 ### force all values higher than 100 to 100
-df_ordered_v2$Value[df_ordered_v2$Value>100]<-100
+
+      df_ordered_v2$Value[df_ordered_v2$Value>100]<-100
 
 ### correct -1 error
-df_ordered_v2[df_ordered_v2[, 3] == -1, 3] <- df_ordered_v2[df_ordered_v2[, 3] == -1, 3 - 1] + 1000000
+      
+      df_ordered_v2[df_ordered_v2[, 3] == -1, 3] <- df_ordered_v2[df_ordered_v2[, 3] == -1, 3 - 1] + 1000000
 
 
 # 4. plot
