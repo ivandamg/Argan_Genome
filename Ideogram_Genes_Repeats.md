@@ -3,26 +3,23 @@
 
 # 1. Libraries
 
-#if (!requireNamespace("BiocManager", quietly = TRUE))
-#  install.packages("BiocManager")
-#BiocManager::install()
 
-library(IRanges)
-require(RIdeogram)
-library(ggplot2)
-require(ggideogram)
-library(ggnewscale)
+      library(IRanges)
+      require(RIdeogram)
+      library(ggplot2)
+      require(ggideogram)
+      library(ggnewscale)
 
 
 
 # 2.  Genes annotation
 
-gene_density1 <- GFFex(input = "/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/04_Annotation/01_hap1/Sspinosum_hap1.gtf", karyotype = "/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/11_Ideogram/Hap1_Karyotype.txt", feature = "gene", window = 1000000)
-gene_density2 <- GFFex(input = "/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/04_Annotation/02_hap2/Sspinosum_hap2.gtf", karyotype = "/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/11_Ideogram/Hap2_Karyotype.txt", feature = "gene", window = 1000000)
+      gene_density1 <- GFFex(input = "/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/04_Annotation/01_hap1/Sspinosum_hap1.gtf", karyotype = "/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/11_Ideogram/Hap1_Karyotype.txt", feature = "gene", window = 1000000)
+      gene_density2 <- GFFex(input = "/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/04_Annotation/02_hap2/Sspinosum_hap2.gtf", karyotype = "/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/11_Ideogram/Hap2_Karyotype.txt", feature = "gene", window = 1000000)
 
-gene_density1$Chr <- factor(gene_density1$Chr , levels = c("Chromosome_1","Chromosome_2","Chromosome_3","Chromosome_4","Chromosome_5","Chromosome_6","Chromosome_7","Chromosome_8","Chromosome_9","Chromosome_10","Chromosome_11"))
+      gene_density1$Chr <- factor(gene_density1$Chr , levels = c("Chromosome_1","Chromosome_2","Chromosome_3","Chromosome_4","Chromosome_5","Chromosome_6","Chromosome_7","Chromosome_8","Chromosome_9","Chromosome_10","Chromosome_11"))
 
-gene_density2$Chr <- factor(gene_density2$Chr , levels = c("Chromosome_1","Chromosome_2","Chromosome_3","Chromosome_4","Chromosome_5","Chromosome_6","Chromosome_7","Chromosome_8","Chromosome_9","Chromosome_10","Chromosome_11"))
+      gene_density2$Chr <- factor(gene_density2$Chr , levels = c("Chromosome_1","Chromosome_2","Chromosome_3","Chromosome_4","Chromosome_5","Chromosome_6","Chromosome_7","Chromosome_8","Chromosome_9","Chromosome_10","Chromosome_11"))
 
 
 
@@ -32,46 +29,46 @@ gene_density2$Chr <- factor(gene_density2$Chr , levels = c("Chromosome_1","Chrom
 # 3. Repeats annotations
 
 ## Hap1
-Repeatshap1<- read.delim("/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/03_Repeats/S_spinosum_hap1.fa.out.gff",h=F,comment.char = "#",sep="\t")
-colnames(Repeatshap1)<-c("Contig","Repeatmasker","Type","Start","End","V6","Strand","V8","Info")
 
-Repeatshap1$Contig<-factor(Repeatshap1$Contig, levels = c("Chromosome_1","Chromosome_2","Chromosome_3", "Chromosome_4","Chromosome_5","Chromosome_6","Chromosome_7","Chromosome_8","Chromosome_9", "Chromosome_10", "Chromosome_11","scaffold_12", "scaffold_13","scaffold_14"))
+      Repeatshap1<- read.delim("/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/03_Repeats/S_spinosum_hap1.fa.out.gff",h=F,comment.char = "#",sep="\t")
+      colnames(Repeatshap1)<-c("Contig","Repeatmasker","Type","Start","End","V6","Strand","V8","Info")
 
-### extract ID
-RepeatIDhap1<-lapply(strsplit(Repeatshap1$Info,split =" "),function (x) x [1] ) 
-RepeatIDhap1<-lapply(strsplit(unlist(RepeatIDhap1), split = ";"),function (x) x[1])
-RepeatIDhap1<-as.numeric(gsub("ID=","",unlist(RepeatIDhap1)))
-### extract ID info
-RepeatMotifhap1<-lapply(strsplit(Repeatshap1$Info,split =" "),function (x) x [2] ) 
-RepeatMotifhap1<-gsub("Motif:","",unlist(RepeatMotifhap1))
-### ADD columns
-Repeatshap1<-cbind.data.frame(Repeatshap1,ID=RepeatIDhap1, Motif=RepeatMotifhap1)
+      Repeatshap1$Contig<-factor(Repeatshap1$Contig, levels = c("Chromosome_1","Chromosome_2","Chromosome_3", "Chromosome_4","Chromosome_5","Chromosome_6","Chromosome_7","Chromosome_8","Chromosome_9", "Chromosome_10", "Chromosome_11","scaffold_12", "scaffold_13","scaffold_14"))
+
+
+      RepeatIDhap1<-lapply(strsplit(Repeatshap1$Info,split =" "),function (x) x [1] ) # extract ID
+      RepeatIDhap1<-lapply(strsplit(unlist(RepeatIDhap1), split = ";"),function (x) x[1])
+      RepeatIDhap1<-as.numeric(gsub("ID=","",unlist(RepeatIDhap1)))
+      RepeatMotifhap1<-lapply(strsplit(Repeatshap1$Info,split =" "),function (x) x [2] ) # extract ID info
+      RepeatMotifhap1<-gsub("Motif:","",unlist(RepeatMotifhap1))
+      Repeatshap1<-cbind.data.frame(Repeatshap1,ID=RepeatIDhap1, Motif=RepeatMotifhap1) # ADD columns
 
 
 
 ## Hap2
-Repeatshap2<- read.delim("/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/03_Repeats/Repeats_S_spinosum_hap2.fa.out.gff",h=F,comment.char = "#",sep="\t")
-colnames(Repeatshap2)<-c("Contig","Repeatmasker","Type","Start","End","V6","Strand","V8","Info")
-#order contigs
-Repeatshap2$Contig<-factor(Repeatshap2$Contig, levels = c("Chromosome_1","Chromosome_2","Chromosome_3", "Chromosome_4","Chromosome_5","Chromosome_6","Chromosome_7","Chromosome_8","Chromosome_9", "Chromosome_10", "Chromosome_11","scaffold_12", "scaffold_13","scaffold_14","scaffold_15","scaffold_16","scaffold_17","scaffold_18","scaffold_19","scaffold_20"))
+
+      Repeatshap2<- read.delim("/Users/mateusgo/Documents/2024_FRIBURG2/02_2024_ArganGenome/03_Manuscript_v6/03_Repeats/Repeats_S_spinosum_hap2.fa.out.gff",h=F,comment.char = "#",sep="\t")
+      colnames(Repeatshap2)<-c("Contig","Repeatmasker","Type","Start","End","V6","Strand","V8","Info")
+
+      Repeatshap2$Contig<-factor(Repeatshap2$Contig, levels = c("Chromosome_1","Chromosome_2","Chromosome_3", "Chromosome_4","Chromosome_5","Chromosome_6","Chromosome_7","Chromosome_8","Chromosome_9", "Chromosome_10", "Chromosome_11","scaffold_12", "scaffold_13","scaffold_14","scaffold_15","scaffold_16","scaffold_17","scaffold_18","scaffold_19","scaffold_20"))#order contigs
 
 
-### extract ID
-RepeatIDhap2<-lapply(strsplit(Repeatshap2$Info,split =" "),function (x) x [1] ) 
-RepeatIDhap2<-lapply(strsplit(unlist(RepeatIDhap2), split = ";"),function (x) x[1])
-RepeatIDhap2<-as.numeric(gsub("ID=","",unlist(RepeatIDhap2)))
-### extract ID info
-RepeatMotifhap2<-lapply(strsplit(Repeatshap2$Info,split =" "),function (x) x [2] ) 
-RepeatMotifhap2<-gsub("Motif:","",unlist(RepeatMotifhap2))
-### ADD columns
-Repeatshap2<-cbind.data.frame(Repeatshap2,ID=RepeatIDhap2, Motif=RepeatMotifhap2)
+      RepeatIDhap2<-lapply(strsplit(Repeatshap2$Info,split =" "),function (x) x [1] ) # extract ID  
+      RepeatIDhap2<-lapply(strsplit(unlist(RepeatIDhap2), split = ";"),function (x) x[1])  
+      RepeatIDhap2<-as.numeric(gsub("ID=","",unlist(RepeatIDhap2)))
+      
+      RepeatMotifhap2<-lapply(strsplit(Repeatshap2$Info,split =" "),function (x) x [2] ) # extract ID info
+      RepeatMotifhap2<-gsub("Motif:","",unlist(RepeatMotifhap2))
+      Repeatshap2<-cbind.data.frame(Repeatshap2,ID=RepeatIDhap2, Motif=RepeatMotifhap2)# ADD columns
 
-repo<-Repeatshap1[grep("scaffold",Repeatshap1$Contig,invert = T),]
+
+      repo<-Repeatshap1[grep("scaffold",Repeatshap1$Contig,invert = T),]
 
 
 # 3b. Calculate nb bases that are repeats in 1Mb window
 ### Define window size
-window_size <- 1e6
+
+      window_size <- 1e6
 
 ### Assign window start
 repo$WindowStart <- floor(repo$Start / window_size) * window_size
